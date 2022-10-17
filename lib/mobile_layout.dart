@@ -104,7 +104,7 @@ class MobileLayout extends StatelessWidget {
                             value: state.chosenExtension,
                             hint: const Text("Выберите расширение",
                                 style: TextStyle(
-                                    fontSize: 15, color: Colors.black)),
+                                    fontSize: 25, color: Colors.black)),
                             items: state.availableExtensions
                                 .map((e) => DropdownMenuItem<String>(
                                     value: e,
