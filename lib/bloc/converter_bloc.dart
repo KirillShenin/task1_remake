@@ -40,8 +40,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
           if (list.isNotEmpty) {
             ConverterResult result =
                 await client.getConvertGroup(state.chosenFilePath, list.first);
-            if (result.exception == null) {
-            } else {
+            if (result.exception != null) {
               emit(state.copyWith(
                   exceptionMessage: result.exception!['message']));
               return;
@@ -109,9 +108,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
       if (directory != null) {
         await client.downloadResult(
           state.resultUrl,
-          state.outputFileName.isNotEmpty
-              ? state.outputFileName
-              : state.chosenFileName,
+          state.chosenFileName,
           state.chosenExtension,
           directory,
         );
