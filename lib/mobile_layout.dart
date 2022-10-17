@@ -1,103 +1,149 @@
 import 'package:flutter/material.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1_remake/button_state.dart';
 import 'package:task1_remake/bloc/converter_bloc.dart';
 
 class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key});
-
   @override
   Widget build(BuildContext context) {
     ConverterBloc converterBloc = ConverterBloc();
+    bool isLoading = false;
     return BlocProvider<ConverterBloc>(
-        create: (context) => ConverterBloc(),
-        child: BlocBuilder<ConverterBloc, ConverterState>(
-            bloc: converterBloc,
-            builder: ((context, state) {
-              return Scaffold(
-                appBar: AppBar(title: const Text('Converter app')),
-                backgroundColor: Colors.white,
-                body: BlocListener(
-                  bloc: converterBloc,
-                  listener: (BuildContext context, ConverterState state) {
-                    if (state.exceptionMessage.isNotEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.redAccent,
-                          content: Text(state.exceptionMessage),
-                          duration: const Duration(seconds: 5),
+      create: (context) => ConverterBloc(),
+      child: BlocBuilder<ConverterBloc, ConverterState>(
+        bloc: converterBloc,
+        builder: ((context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "Конвертер файлов",
+                style: TextStyle(fontSize: 40),
+              ),
+              centerTitle: true,
+            ),
+            backgroundColor: Colors.white,
+            body: Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/mobile.jpg"),
+                      fit: BoxFit.cover)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 30,
+                  horizontal: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const Text(
+                      'Сконвертируйте ваши файлы в любой формат',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 30,
+                        horizontal: 20,
+                      ),
+                      child: GestureDetector(
+                        onTap: () async {
+                          converterBloc.add(FilePickedEvent());
+                          isLoading = true;
+                        },
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(20),
+                          dashPattern: const [10, 4],
+                          strokeCap: StrokeCap.round,
+                          color: Colors.blue,
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[200],
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                isLoading
+                                    ? const Icon(
+                                        Icons.cloud_download,
+                                        color: Colors.white,
+                                        size: 40,
+                                      )
+                                    : const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 40,
+                                      ),
+                                isLoading
+                                    ? Text(state.chosenFileName,
+                                        style: const TextStyle(
+                                            fontSize: 25, color: Colors.black))
+                                    : const Text('Выберите файл',
+                                        style: TextStyle(
+                                            fontSize: 25, color: Colors.black)),
+                              ],
+                            ),
+                          ),
                         ),
-                      );
-                    }
-                  },
-                  child: Center(
+                      ),
+                    ),
+                    Center(
                       child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                              width: 250,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black87),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(2, 5, 0, 0),
-                                child: Text(
-                                  state.chosenFileName,
-                                  textAlign: TextAlign.left,
-                                  maxLines: 1,
+                          DropdownButton<String>(
+                            value: state.chosenExtension,
+                            hint: const Text("Выберите расширение",
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black)),
+                            items: state.availableExtensions
+                                .map((e) => DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(e,
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black))))
+                                .toList(),
+                            onChanged: ((value) {
+                              converterBloc
+                                  .add(FileExtensionPickedEvent(value!));
+                            }),
+                          ),
+                          ActionButton(bloc: converterBloc, state: state),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 30,
+                            ),
+                            child: SizedBox(
+                              height: 40,
+                              child: Visibility(
+                                visible: state.isLoading,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.red,
+                                  value: null,
                                 ),
-                              )),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              converterBloc.add(FilePickedEvent());
-                            },
-                            icon: const Icon(Icons.file_open),
-                          ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      DropdownButton<String>(
-                          value: state.chosenExtension,
-                          hint: const Text("Доступные форматы"),
-                          items: state.availableExtensions
-                              .map((e) => DropdownMenuItem<String>(
-                                  value: e, child: Text(e)))
-                              .toList(),
-                          onChanged: ((value) {
-                            converterBloc.add(FileExtensionPickedEvent(value!));
-                          })),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      ActionButton(bloc: converterBloc, state: state),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: Visibility(
-                          visible: state.isLoading,
-                          child: const CircularProgressIndicator(
-                            color: Colors.blueAccent,
-                            value: null,
-                          ),
-                        ),
-                      )
-                    ],
-                  )),
+                    ),
+                  ],
                 ),
-              );
-            })));
+              ),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }

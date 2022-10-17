@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'desktop_layout.dart';
-import 'mobile_layout.dart';
+import 'package:task1_remake/desktop_layout.dart';
+import 'package:task1_remake/mobile_layout.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

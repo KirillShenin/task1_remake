@@ -9,8 +9,8 @@ part 'converter_state.dart';
 class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   Client client = Client(
     apiKey:
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmRiNjM3ZjkxNzdmNzQ5MWE0NDM3OWVmNjU4MDI0MWNiMzMzMWVmNjczYzgyZDVlYTQ4OTM5YmRmMDUzYzhkNTkzN2JiNzQ5YTYwOTRhMWYiLCJpYXQiOjE2NjU3MTU4MjIuOTg5NjEyLCJuYmYiOjE2NjU3MTU4MjIuOTg5NjE0LCJleHAiOjQ4MjEzODk0MjIuOTg2MDU5LCJzdWIiOiI2MDI3OTExNCIsInNjb3BlcyI6WyJ1c2VyLnJlYWQiLCJ1c2VyLndyaXRlIiwidGFzay5yZWFkIiwidGFzay53cml0ZSIsIndlYmhvb2sucmVhZCIsIndlYmhvb2sud3JpdGUiLCJwcmVzZXQucmVhZCIsInByZXNldC53cml0ZSJdfQ.QmIvbDJyREkQktNWLrEAMoamOch-9Z4xfy9hmRboEMqDc8l1QuKcAjKqm1AS-0XX4Y6-M_5nf-Ig94va5BBvON-CWkXh2aF2fXXVOw6-I58Uxx0q28CuxIJLl1N1-gQ_XTZHmwQ5CR2OSrRtMgIen1bRv3tkAOGQ591o3vyZlRFXTwD5rqccepuoXPMyA3C3h6ztL3PIdwA2r4KarEsbCE5fiPpk3l1HP_AMo_67DgVfJBhPRfsqtO_gWS9rv3C4Wwoev_Ywxvf7-oQiTc5S6qIipIUAS5-t5HJVl2W39nhJmFojJH8B5onxQbuXpQ9TUuV5rFe9jJKQY8xinngAvw5562B-gHJtOIVsAIOiWj9nDGCPlJCMxQha7zmlIupnfSAmJ3EsztWIcEV7Eh8lYDZwhNYStxlih64VKGwl6kyks5GE73HxPrXm8XsiqwuVBYuHkw_3HW8ZsfqhKXYdtwnRoOxs00XXlMLtXPUr1v_ei2qAweIa6BkMHkH3amFcYPpG-7TyUtbZM-IB8ekYPgna_h7ABc8HuJ78T7xRSX8haVOR0Uv85T5hTT4R4dJmQCeqSSPUg7sBRCjYvE1ADF9c4c3heHouiIHj7GApsmPt5i_mElvtJ8AeFfOLqeKu9t8fDaF981ePEv0jN2vgZQ1X_gLCBkBfWofLwlNyCDs',
-    baseUrls: BaseUrls.sandbox,
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNGU4NjkwYzY0MDFmMWU1OTFiN2I0MmVmZmZmMjJmYThhMzZkMzJkMDYyOWM2MjI4NWEwMjc5OGFlY2ZmODIxNGY1NTRlOTAwY2E4ZWJlYmQiLCJpYXQiOjE2NjU3MTU4ODMuNDc2MTM5LCJuYmYiOjE2NjU3MTU4ODMuNDc2MTQsImV4cCI6NDgyMTM4OTQ4My40NzE1NDgsInN1YiI6IjYwMjc5MTE0Iiwic2NvcGVzIjpbInVzZXIucmVhZCIsInVzZXIud3JpdGUiLCJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIiwid2ViaG9vay5yZWFkIiwid2ViaG9vay53cml0ZSIsInByZXNldC5yZWFkIiwicHJlc2V0LndyaXRlIl19.EbkJWZq6NnkL83agd1IVOVlzIbt6pHzBbNs3CDv_xtsAzlo0cy9R4VHRGNZjOkk10ZT7TbAJEgGgmexedbKydQALnsA-NkLIgmE93d14bhjoWwo8vOISRxk8VlRWutBnyk49anahMcCRaQkeAtZhQXmvydO4FKqI4mVHNdmtDqJZmeJqvf57wM-tnw4aBz71B5SeXOsedsrZz_gEaRKEjxFfUxfjTmAUPE1TXe_TQP8Qw1-hGQA1nmkEp9ltqKfc7Jk0P5avOG5tf1E1iDWz5n9ZL-YPRnTh49_WM4QizzsJXALQsY74jtuvoyp8h6rMsGuF_V79gzTEJPR1-ImmxSlIfKJY8Si9gkzpuZ2H2xPrHtWY3GWFhNQAf60MO6fI79TwcXKzmX9sCVgoOYIiCYgmmaj8jli9PMONo6gadV008YLMuZ4Ypp0mLz9fMIAx541hLAQtFe3DJ_H-EULop49c3o0U3NnBaA8WR8HIrhCy8Sh2-JW3yTClV-pzHIhmGbRs0HyvlV5rg1tBnzjPXharM2EhFgnepDW2b5IWppDU0-76khwhZtngDUeHkEhyAs13N1R2HyUdF5g7vB0FTFC-PK6ZJxeddGZ-s7NEkZA43xj738r4mmxNwNNmadsxg39iGFwVEAkvzwWORWJspcdS3sBbN8kLyZo78A3e0bI',
+    baseUrls: BaseUrls.live,
   );
 
   ConverterBloc() : super(const ConverterState()) {
@@ -37,12 +37,10 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
             await client.getSupportedFormats(state.chosenFilePath);
         if (formats.exception == null) {
           List<String> list = formats.result;
-          String group = '';
           if (list.isNotEmpty) {
             ConverterResult result =
                 await client.getConvertGroup(state.chosenFilePath, list.first);
             if (result.exception == null) {
-              group = result.result;
             } else {
               emit(state.copyWith(
                   exceptionMessage: result.exception!['message']));
@@ -67,11 +65,9 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   _onFormatPicked(
       FileExtensionPickedEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
-    String group = '';
     ConverterResult result =
         await client.getConvertGroup(state.chosenFilePath, event.extension);
     if (result.exception == null) {
-      group = result.result;
     } else {
       emit(state.copyWith(exceptionMessage: result.exception!['message']));
       return;
