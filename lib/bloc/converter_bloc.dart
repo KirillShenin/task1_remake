@@ -14,18 +14,18 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   ConverterBloc() : super(const ConverterState()) {
     on<ConverterEvent>((event, emit) async {
       if (event is FilePickedEvent) {
-        await filePicked;
+        await _filePicked;
       } else if (event is FileExtensionPickedEvent) {
-        await fileExtensionPicked;
+        await _fileExtensionPicked;
       } else if (event is FileDownloadEvent) {
-        await fileDownload;
+        await _fileDownload;
       } else if (event is FileConvertEvent) {
-        await fileConvert;
+        await _fileConvert;
       }
     });
   }
 
-  filePicked(
+  _filePicked(
     FilePickedEvent event,
     Emitter<ConverterState> emit,
   ) async {
@@ -42,9 +42,19 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
             await client.getSupportedFormats(state.chosenFilePath);
         if (formats.exception == null) {
           List<String> list = formats.result;
+          if (list.isNotEmpty) {
+            ConverterResult result =
+                await client.getConvertGroup(state.chosenFilePath, list.first);
+            if (result.exception == null) {
+            } else {
+              print(result.exception);
+            }
+          }
           emit(state.copyWith(
             availableExtensions: list,
             chosenFileExtension: list.isNotEmpty ? list.first : null,
+            buttonState:
+                list.isNotEmpty ? ButtonStates.convert : ButtonStates.pick,
           ));
         } else {
           emit(state.copyWith());
@@ -54,26 +64,27 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     } catch (e) {
       print(e);
       emit(const ConverterState());
+      //do smth
     }
   }
 
-  fileExtensionPicked(
+  _fileExtensionPicked(
       FileExtensionPickedEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
-    String group = '';
     ConverterResult result =
         await client.getConvertGroup(state.chosenFilePath, event.extension);
     if (result.exception == null) {
-      group = result.result;
     } else {
       print(result.exception);
     }
     emit(state.copyWith(
       chosenFileExtension: event.extension,
+      buttonState:
+          event.extension == '' ? ButtonStates.pick : ButtonStates.convert,
     ));
   }
 
-  fileConvert(FileConvertEvent event, Emitter<ConverterState> emit) async {
+  _fileConvert(FileConvertEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
       ConverterResult result = await client.postJob(
@@ -84,6 +95,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
         print(result.result);
         emit(state.copyWith(
           resultUrl: result.result,
+          buttonState: ButtonStates.download,
         ));
       } else {
         print(result.exception);
@@ -96,7 +108,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   }
 
   // Action Button поменять
-  fileDownload(FileDownloadEvent event, Emitter<ConverterState> emit) async {
+  _fileDownload(FileDownloadEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     String? directory;
     try {
