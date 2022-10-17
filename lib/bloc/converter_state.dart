@@ -1,50 +1,52 @@
-import 'package:flutter/material.dart';
+part of 'converter_bloc.dart';
 
-enum ButtonStates { pick, convert, download }
+enum ButtonStates { disabled, convert, download }
 
 @immutable
 class ConverterState {
   final String chosenFilePath;
   final String chosenFileName;
-  final String chosenFileExtension;
+  final String chosenExtension;
   final String outputFileName;
   final List<String> availableExtensions;
   final String resultUrl;
-  final ButtonStates buttonState;
   final bool isLoading;
-  final IconData groupIcon;
+  final ButtonStates buttonState;
+  final String exceptionMessage;
 
-  const ConverterState(
-      {this.chosenFilePath = '',
-      this.chosenFileName = '',
-      this.outputFileName = '',
-      this.chosenFileExtension = '',
-      this.availableExtensions = const [],
-      this.resultUrl = '',
-      this.buttonState = ButtonStates.pick,
-      this.groupIcon = Icons.error_outline,
-      this.isLoading = false});
+  const ConverterState({
+    this.chosenFilePath = '',
+    this.chosenFileName = '',
+    this.chosenExtension = '',
+    this.outputFileName = '',
+    this.availableExtensions = const [],
+    this.resultUrl = '',
+    this.isLoading = false,
+    this.buttonState = ButtonStates.disabled,
+    this.exceptionMessage = '',
+  });
 
   ConverterState copyWith({
     String? chosenFilePath,
     String? chosenFileName,
+    String? chosenExtension,
     String? outputFileName,
-    String? chosenFileExtension,
     List<String>? availableExtensions,
     String? resultUrl,
-    ButtonStates? buttonState,
-    IconData groupIcon = Icons.error_outline,
     bool isLoading = false,
+    ButtonStates? buttonState,
+    String exceptionMessage = '',
   }) {
     return ConverterState(
-        chosenFilePath: chosenFilePath ?? this.chosenFilePath,
-        chosenFileName: chosenFileName ?? this.chosenFileName,
-        outputFileName: outputFileName ?? this.outputFileName,
-        chosenFileExtension: chosenFileExtension ?? this.chosenFileExtension,
-        availableExtensions: availableExtensions ?? this.availableExtensions,
-        resultUrl: resultUrl ?? this.resultUrl,
-        buttonState: buttonState ?? this.buttonState,
-        groupIcon: groupIcon,
-        isLoading: isLoading);
+      chosenFilePath: chosenFilePath ?? this.chosenFilePath,
+      chosenFileName: chosenFileName ?? this.chosenFileName,
+      chosenExtension: chosenExtension ?? this.chosenExtension,
+      outputFileName: outputFileName ?? this.outputFileName,
+      availableExtensions: availableExtensions ?? this.availableExtensions,
+      resultUrl: resultUrl ?? this.resultUrl,
+      isLoading: isLoading,
+      buttonState: buttonState ?? this.buttonState,
+      exceptionMessage: exceptionMessage,
+    );
   }
 }

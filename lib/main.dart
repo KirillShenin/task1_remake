@@ -1,24 +1,27 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task1_remake/bloc/converter_bloc.dart';
-import 'package:task1_remake/desktop_layout.dart';
-import 'package:task1_remake/mobile_layout.dart';
+import 'dart:io';
+import 'desktop_layout.dart';
+import 'mobile_layout.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ConverterApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ConverterApp extends StatelessWidget {
+  const ConverterApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
-      return BlocProvider(
-          create: (context) => ConverterBloc(), child: const DesktopLayout());
-    } else {
-      return BlocProvider(
-          create: (context) => ConverterBloc(), child: const DesktopLayout());
-    }
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, home: determinePlatform());
+  }
+}
+
+Widget determinePlatform() {
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    return const DesktopLayout();
+  } else {
+    return const MobileLayout();
   }
 }

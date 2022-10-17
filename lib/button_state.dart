@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task1_remake/bloc/converter_bloc.dart';
-import 'package:task1_remake/bloc/converter_event.dart';
-import 'package:task1_remake/bloc/converter_state.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({super.key, required this.bloc, required this.state});
@@ -12,12 +10,13 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state.buttonState) {
-      case ButtonStates.pick:
+      case ButtonStates.disabled:
         {
           return ElevatedButton.icon(
             onPressed: null,
-            icon: const Icon(Icons.error_outline),
+            icon: const Icon(Icons.warning),
             label: const Text('Выберите файл'),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[100]),
           );
         }
       case ButtonStates.convert:
@@ -27,7 +26,9 @@ class ActionButton extends StatelessWidget {
               bloc.add(FileConvertEvent());
             },
             icon: const Icon(Icons.file_upload),
-            label: const Text('Конвертировать'),
+            label: const Text('Конвертировать',
+                style: TextStyle(fontSize: 25, color: Colors.black)),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[200]),
           );
         }
       case ButtonStates.download:
@@ -37,8 +38,15 @@ class ActionButton extends StatelessWidget {
               bloc.add(FileDownloadEvent());
             },
             icon: const Icon(Icons.file_download),
-            label: const Text('Скачать'),
+            label: const Text('Скачать',
+                style: TextStyle(fontSize: 25, color: Colors.black)),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[200]),
           );
+        }
+      default:
+        {
+          return const RawMaterialButton(
+              onPressed: null, child: Text('Unexpected state'));
         }
     }
   }
