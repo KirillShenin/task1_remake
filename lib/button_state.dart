@@ -10,7 +10,7 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state.buttonState) {
-      case ButtonStates.disabled:
+      case ButtonStates.pick:
         {
           return ElevatedButton.icon(
             onPressed: null,

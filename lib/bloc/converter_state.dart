@@ -1,6 +1,6 @@
 part of 'converter_bloc.dart';
 
-enum ButtonStates { disabled, convert, download }
+enum ButtonStates { pick, convert, download }
 
 @immutable
 class ConverterState {
@@ -22,7 +22,7 @@ class ConverterState {
     this.availableExtensions = const [],
     this.resultUrl = '',
     this.isLoading = false,
-    this.buttonState = ButtonStates.disabled,
+    this.buttonState = ButtonStates.pick,
     this.exceptionMessage = '',
   });
 

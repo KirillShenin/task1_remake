@@ -14,13 +14,13 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
   );
 
   ConverterBloc() : super(const ConverterState()) {
-    on<FilePickedEvent>(_filePicked);
-    on<FileExtensionPickedEvent>(_onFormatPicked);
-    on<FileConvertEvent>(_onConvert);
-    on<FileDownloadEvent>(_onDownload);
+    on<FilePickedEvent>(filePicked);
+    on<FileExtensionPickedEvent>(fileExtensionsPicked);
+    on<FileConvertEvent>(fileConvert);
+    on<FileDownloadEvent>(fileDownload);
   }
 
-  _filePicked(
+  filePicked(
     FilePickedEvent event,
     Emitter<ConverterState> emit,
   ) async {
@@ -51,7 +51,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
             availableExtensions: list,
             chosenExtension: list.isNotEmpty ? list.first : null,
             buttonState:
-                list.isNotEmpty ? ButtonStates.convert : ButtonStates.disabled,
+                list.isNotEmpty ? ButtonStates.convert : ButtonStates.pick,
           ));
         } else {
           emit(state.copyWith(exceptionMessage: formats.exception!['message']));
@@ -62,7 +62,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     }
   }
 
-  _onFormatPicked(
+  fileExtensionsPicked(
       FileExtensionPickedEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     ConverterResult result =
@@ -75,11 +75,11 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     emit(state.copyWith(
       chosenExtension: event.extension,
       buttonState:
-          event.extension == '' ? ButtonStates.disabled : ButtonStates.convert,
+          event.extension == '' ? ButtonStates.pick : ButtonStates.convert,
     ));
   }
 
-  _onConvert(FileConvertEvent event, Emitter<ConverterState> emit) async {
+  fileConvert(FileConvertEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
       ConverterResult result = await client.postJob(
@@ -101,7 +101,7 @@ class ConverterBloc extends Bloc<ConverterEvent, ConverterState> {
     }
   }
 
-  _onDownload(FileDownloadEvent event, Emitter<ConverterState> emit) async {
+  fileDownload(FileDownloadEvent event, Emitter<ConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     String? directory;
     try {

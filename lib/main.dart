@@ -13,12 +13,11 @@ class ConverterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false, home: determinePlatform());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: myPlatform());
   }
 }
 
-Widget determinePlatform() {
+Widget myPlatform() {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     return const DesktopLayout();
   } else {
