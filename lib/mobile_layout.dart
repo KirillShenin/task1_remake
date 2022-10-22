@@ -9,7 +9,6 @@ class MobileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConvertBloc converterBloc = ConvertBloc();
-    bool isLoading = false;
     return BlocProvider<ConvertBloc>(
       create: (context) => ConvertBloc(),
       child: BlocBuilder<ConvertBloc, ConvertState>(
@@ -53,7 +52,6 @@ class MobileLayout extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () async {
                           converterBloc.add(FilePickedEvent());
-                          isLoading = true;
                         },
                         child: DottedBorder(
                           borderType: BorderType.RRect,
@@ -71,7 +69,7 @@ class MobileLayout extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
-                                isLoading
+                                (state.chosenFileName != '')
                                     ? const Icon(
                                         Icons.cloud_download,
                                         color: Colors.white,
@@ -82,7 +80,7 @@ class MobileLayout extends StatelessWidget {
                                         color: Colors.white,
                                         size: 40,
                                       ),
-                                isLoading
+                                (state.chosenFileName != '')
                                     ? Text(state.chosenFileName,
                                         style: const TextStyle(
                                             fontSize: 25, color: Colors.black))

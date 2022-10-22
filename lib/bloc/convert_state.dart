@@ -7,7 +7,6 @@ class ConvertState {
   final String chosenFilePath;
   final String chosenFileName;
   final String chosenExtension;
-  final String outputFileName;
   final List<String> availableExtensions;
   final String resultUrl;
   final bool isLoading;
@@ -17,7 +16,6 @@ class ConvertState {
     this.chosenFilePath = '',
     this.chosenFileName = '',
     this.chosenExtension = '',
-    this.outputFileName = '',
     this.availableExtensions = const [],
     this.resultUrl = '',
     this.isLoading = false,
@@ -28,7 +26,6 @@ class ConvertState {
     String? chosenFilePath,
     String? chosenFileName,
     String? chosenExtension,
-    String? outputFileName,
     List<String>? availableExtensions,
     String? resultUrl,
     bool isLoading = false,
@@ -38,7 +35,6 @@ class ConvertState {
       chosenFilePath: chosenFilePath ?? this.chosenFilePath,
       chosenFileName: chosenFileName ?? this.chosenFileName,
       chosenExtension: chosenExtension ?? this.chosenExtension,
-      outputFileName: outputFileName ?? this.outputFileName,
       availableExtensions: availableExtensions ?? this.availableExtensions,
       resultUrl: resultUrl ?? this.resultUrl,
       isLoading: isLoading,
