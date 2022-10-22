@@ -27,15 +27,11 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
     Emitter<ConvertState> emit,
   ) async {
     FilePickerResult? result;
-    String name = '0';
-    int found = 0;
     try {
       result = await FilePicker.platform.pickFiles(type: FileType.any);
-      found = result!.files.first.name.indexOf('.');
-      name = result.files.first.name.substring(0, found);
       emit(state.copyWith(
-        chosenFilePath: result.files.first.path,
-        chosenFileName: name,
+        chosenFilePath: result?.files.first.path,
+        chosenFileName: result?.files.first.name,
         isLoading: true,
       ));
       final ConverterResult formats =
@@ -82,12 +78,16 @@ class ConvertBloc extends Bloc<ConvertEvent, ConvertState> {
   _fileDownload(FileDownloadEvent event, Emitter<ConvertState> emit) async {
     emit(state.copyWith(isLoading: true));
     String? directory;
+    String name = '';
+    int found = 0;
+    found = state.chosenFileName.indexOf('.');
+    name = state.chosenFileName.substring(0, found);
     try {
       directory = await FilePicker.platform.getDirectoryPath();
       if (directory != null) {
         await client.downloadResult(
           state.resultUrl,
-          state.chosenFileName,
+          name,
           state.chosenExtension,
           directory,
         );
