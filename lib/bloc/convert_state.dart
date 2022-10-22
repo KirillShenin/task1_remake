@@ -1,9 +1,9 @@
-part of 'converter_bloc.dart';
+part of 'convert_bloc.dart';
 
 enum ButtonStates { pick, convert, download }
 
 @immutable
-class ConverterState {
+class ConvertState {
   final String chosenFilePath;
   final String chosenFileName;
   final String chosenExtension;
@@ -12,9 +12,8 @@ class ConverterState {
   final String resultUrl;
   final bool isLoading;
   final ButtonStates buttonState;
-  final String exceptionMessage;
 
-  const ConverterState({
+  const ConvertState({
     this.chosenFilePath = '',
     this.chosenFileName = '',
     this.chosenExtension = '',
@@ -23,10 +22,9 @@ class ConverterState {
     this.resultUrl = '',
     this.isLoading = false,
     this.buttonState = ButtonStates.pick,
-    this.exceptionMessage = '',
   });
 
-  ConverterState copyWith({
+  ConvertState copyWith({
     String? chosenFilePath,
     String? chosenFileName,
     String? chosenExtension,
@@ -35,9 +33,8 @@ class ConverterState {
     String? resultUrl,
     bool isLoading = false,
     ButtonStates? buttonState,
-    String exceptionMessage = '',
   }) {
-    return ConverterState(
+    return ConvertState(
       chosenFilePath: chosenFilePath ?? this.chosenFilePath,
       chosenFileName: chosenFileName ?? this.chosenFileName,
       chosenExtension: chosenExtension ?? this.chosenExtension,
@@ -46,7 +43,6 @@ class ConverterState {
       resultUrl: resultUrl ?? this.resultUrl,
       isLoading: isLoading,
       buttonState: buttonState ?? this.buttonState,
-      exceptionMessage: exceptionMessage,
     );
   }
 }

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1_remake/button_state.dart';
-import 'package:task1_remake/bloc/converter_bloc.dart';
+import 'package:task1_remake/bloc/convert_bloc.dart';
 
 class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key});
   @override
   Widget build(BuildContext context) {
-    ConverterBloc converterBloc = ConverterBloc();
+    ConvertBloc converterBloc = ConvertBloc();
     bool isLoading = false;
-    return BlocProvider<ConverterBloc>(
-      create: (context) => ConverterBloc(),
-      child: BlocBuilder<ConverterBloc, ConverterState>(
+    return BlocProvider<ConvertBloc>(
+      create: (context) => ConvertBloc(),
+      child: BlocBuilder<ConvertBloc, ConvertState>(
         bloc: converterBloc,
         builder: ((context, state) {
           return Scaffold(

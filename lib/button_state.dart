@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task1_remake/bloc/converter_bloc.dart';
+import 'package:task1_remake/bloc/convert_bloc.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({super.key, required this.bloc, required this.state});
 
-  final ConverterBloc bloc;
-  final ConverterState state;
+  final ConvertBloc bloc;
+  final ConvertState state;
 
   @override
   Widget build(BuildContext context) {
