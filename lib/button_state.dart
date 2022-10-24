@@ -3,7 +3,6 @@ import 'package:task1_remake/bloc/convert_bloc.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({super.key, required this.bloc, required this.state});
-
   final ConvertBloc bloc;
   final ConvertState state;
 
@@ -42,11 +41,6 @@ class ActionButton extends StatelessWidget {
                 style: TextStyle(fontSize: 25, color: Colors.black)),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[200]),
           );
-        }
-      default:
-        {
-          return const RawMaterialButton(
-              onPressed: null, child: Text('Unexpected state'));
         }
     }
   }

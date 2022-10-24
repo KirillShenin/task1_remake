@@ -7,7 +7,6 @@ class FilePickedEvent extends ConvertEvent {}
 
 class FileExtensionPickedEvent extends ConvertEvent {
   final String extension;
-
   FileExtensionPickedEvent(this.extension);
 }
 
