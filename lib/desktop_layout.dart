@@ -117,7 +117,7 @@ class DesktopLayout extends StatelessWidget {
                                   .add(FileExtensionPickedEvent(value!));
                             }),
                           ),
-                          ActionButton(bloc: converterBloc, state: state),
+                          Button(bloc: converterBloc, state: state),
                           Padding(
                             padding: const EdgeInsets.only(
                               top: 30,
